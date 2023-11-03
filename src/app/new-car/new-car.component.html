@@ -1,0 +1,56 @@
+{{ form.value | json }}
+<div [formGroup]="form">
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" formControlName="name">
+    </div>
+    <div class="mb-3">
+        <label for="url" class="form-label">Url</label>
+        <input type="text" class="form-control" id="url" formControlName="url">
+        <div *ngIf="form.controls['url'].getError('invalidUrl')">
+            La url debe comenzar con HTTP
+        </div>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="hasDiscount" formControlName="hasDiscount">
+        <label class="form-check-label" for="hasDiscount">
+            Aplica descuento?
+        </label>
+    </div>
+    <div class="mb-3">
+        <label for="name" class="form-label">Descuento</label>
+        <input type="number" class="form-control" id="name" formControlName="discount">
+        <div *ngIf="form.controls['discount'].invalid">
+            El descuento es invalido
+        </div>
+    </div>
+    <div>
+        <h2>Piezas:</h2>
+        <button class="btn btn-secondary" (click)="newPiece()">+</button>
+        <ng-container formArrayName="pieces">
+            <ng-container [formGroupName]="i" 
+                *ngFor="let pieceForm of piecesFormArray.controls; let i = index">
+                <div class="row">
+                    <strong>Pieza nro: {{i + 1}}</strong>
+                    <div class="mb-3 col-5">
+                        <label for="pieceName" class="form-label">Piece Name</label>
+                        <input type="text" class="form-control" id="pieceName" 
+                            formControlName="name">
+                    </div>
+                    <div class="mb-3 col-5">
+                        <label for="pieceWeight" class="form-label">Peso</label>
+                        <input type="number" class="form-control" id="pieceWeight" 
+                            formControlName="weight">
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-danger" (click)="removePiece(i)">X</button>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+        
+    </div>
+
+
+    <button class="btn btn-primary">Guardar</button>
+</div>
